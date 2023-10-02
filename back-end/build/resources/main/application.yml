@@ -1,0 +1,56 @@
+server:
+  port: 9001
+
+spring:
+  cache:
+    type: redis
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.elasticsearch.ElasticsearchRestClientAutoConfiguration
+
+
+  datasource:
+    url: jdbc:postgresql://db:5432/postgres
+    username: postgres
+    password: postgres
+
+  main:
+    banner-mode: off
+    allow-circular-references: true
+
+  kafka:
+    consumer:
+      bootstrap-servers: kafka1:9092
+      group-id: chatify-group
+      auto-offset-reset: earliest
+    producer:
+      bootstrap-servers: kafka1:9092
+
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        search:
+          enabled: true
+          backend:
+            type: elasticsearch
+            dynamic_mapping: true
+            uris: "http://54.251.163.19:9200"
+
+            schema_management:
+              minimal_required_status: yellow
+          schema_management:
+            strategy: drop-and-create
+
+  redis:
+    host: redis
+    port: 6379
+
+  sql:
+    init:
+      mode: always
+      platform: postgres
+
+spring-doc:
+  swagger-ui:
+    path: /api-docs
+    enabled: true
